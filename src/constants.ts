@@ -1,0 +1,2 @@
+export const PROJECT_URL = "https://curmgtrnrpyjsizyhdzy.supabase.co"
+export const API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN1cm1ndHJucnB5anNpenloZHp5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDUzNTIwMTgsImV4cCI6MjAyMDkyODAxOH0.OmdJp7ZUHWFyq2qfolimERaak6lgd1eUziUJNxM2mn0"

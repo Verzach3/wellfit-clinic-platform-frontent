@@ -1,10 +1,11 @@
 import {useParams} from "react-router-dom";
 import "survey-core/defaultV2.css"
-import { BorderlessLight } from "survey-core/themes"
+import {BorderlessLight} from "survey-core/themes"
 import {Model} from "survey-core";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {Loader} from "@mantine/core";
-import {Survey} from "survey-react-ui";
+import {Survey as SurveyComp} from "survey-react-ui";
+import {Survey} from "../../types/Survey.ts";
 
 function SurveyView() {
   const params = useParams();
@@ -15,14 +16,19 @@ function SurveyView() {
       if (!response.data || response.data.length === 0) {
         return;
       }
-
-      const survey = response.data[0];
+      const survey = response.data[0] as Survey;
       const surveyModel = new Model(survey.json);
       surveyModel.applyTheme(BorderlessLight);
       setSurveyModel(surveyModel);
 
     })
   }, [params.id]);
+
+  const surveyComplete = useCallback((sender: Model) => {
+    console.log(sender)
+  }, [])
+
+  surveyModel?.onComplete.add(surveyComplete);
 
   if (surveyModel === null) {
     return (
@@ -39,7 +45,7 @@ function SurveyView() {
     <div style={{
       width: "100vw", height: "100vh", display: "flex",
     }}>
-      <Survey model={surveyModel}/>
+      <SurveyComp model={surveyModel}/>
     </div>
   );
 }

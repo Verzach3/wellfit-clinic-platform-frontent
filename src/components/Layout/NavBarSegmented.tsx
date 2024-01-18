@@ -17,7 +17,7 @@ import {
   IconLogout,
   IconSwitchHorizontal, IconCheckbox,
 } from "@tabler/icons-react";
-import classes from "./NavbarSegmented.module.css";
+import classes from "./NavBarSegmented.module.css";
 import {useNavigate} from "react-router-dom";
 
 const tabs = {

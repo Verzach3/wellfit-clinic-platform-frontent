@@ -2,7 +2,7 @@
 function SurveyDetails() {
   return (
     <div>
-      <h1>sdfsd</h1>
+      <h1></h1>
     </div>
   )
 }

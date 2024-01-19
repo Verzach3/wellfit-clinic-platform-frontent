@@ -21,6 +21,4 @@ RUN yarn run build
 
 FROM socialengine/nginx-spa as production
 WORKDIR /app
-COPY --from=builder /app/dist ./dist
-
-EXPOSE 8000
+COPY --from=builder /app/dist /app/

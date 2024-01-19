@@ -30,6 +30,7 @@
     "@tiptap/extension-link": "^2.1.16",
     "@tiptap/react": "^2.1.16",
     "@tiptap/starter-kit": "^2.1.16",
+    "@uiw/react-textarea-code-editor": "^3.0.2",
     "dayjs": "^1.11.10",
     "embla-carousel-react": "8.0.0-rc19",
     "jotai": "^2.6.1",

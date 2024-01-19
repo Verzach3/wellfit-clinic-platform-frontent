@@ -1,13 +1,32 @@
-
-import { Table } from '@mantine/core';
+import {ActionIcon, Table} from '@mantine/core';
+import {useEffect, useState} from "react";
+import {Survey} from "../../types/Survey.ts";
+import {IconPencil, IconTrash} from "@tabler/icons-react";
 
 function SurveysList() {
-  const rows = elements.map((element) => (
+  const [surveys, setSurvey] = useState<Survey[]>([]);
+
+  useEffect(() => {
+    window.supabase.from("surveys").select("*").then((response) => {
+      console.log(response)
+      setSurvey(response.data ?? [])
+    })
+  }, []);
+  const rows = surveys.map((element) => (
     <Table.Tr key={element.name}>
-      <Table.Td>{element.position}</Table.Td>
-      <Table.Td>{element.name}</Table.Td>
-      <Table.Td>{element.symbol}</Table.Td>
-      <Table.Td>{element.mass}</Table.Td>
+      <Table.Td>
+      {element.name}</Table.Td>
+      <Table.Td>
+        <a href={`https://platform.wellfitclinic.com/surveys/${element.id}`}>{element.id}</a>
+      </Table.Td>
+      <Table.Td>
+        <ActionIcon>
+          <IconPencil/>
+        </ActionIcon>
+        <ActionIcon color={"red"}>
+          <IconTrash/>
+        </ActionIcon>
+      </Table.Td>
     </Table.Tr>
   ));
 
@@ -15,22 +34,13 @@ function SurveysList() {
     <Table>
       <Table.Thead>
         <Table.Tr>
-          <Table.Th>Element position</Table.Th>
-          <Table.Th>Element name</Table.Th>
-          <Table.Th>Symbol</Table.Th>
-          <Table.Th>Atomic mass</Table.Th>
+          <Table.Th>Titulo</Table.Th>
+          <Table.Th>Link</Table.Th>
+          <Table.Th>Acciones</Table.Th>
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>{rows}</Table.Tbody>
     </Table>
   );
 }
-
-const elements = [
-  { position: 6, mass: 12.011, symbol: 'C', name: 'Carbon' },
-  { position: 7, mass: 14.007, symbol: 'N', name: 'Nitrogen' },
-  { position: 39, mass: 88.906, symbol: 'Y', name: 'Yttrium' },
-  { position: 56, mass: 137.33, symbol: 'Ba', name: 'Barium' },
-  { position: 58, mass: 140.12, symbol: 'Ce', name: 'Cerium' },
-];
 export default SurveysList

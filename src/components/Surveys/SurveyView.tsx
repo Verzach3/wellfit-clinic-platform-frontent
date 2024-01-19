@@ -1,5 +1,5 @@
 import {useParams} from "react-router-dom";
-import "survey-core/defaultV2.css"
+import "survey-core/defaultV2.css";
 import {BorderlessLight} from "survey-core/themes"
 import {Model} from "survey-core";
 import {useCallback, useEffect, useState} from "react";

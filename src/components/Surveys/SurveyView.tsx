@@ -1,7 +1,7 @@
 import {useParams} from "react-router-dom";
 import "survey-core/defaultV2.css";
 import {BorderlessLight} from "survey-core/themes"
-import {Model} from "survey-core";
+import {CompleteEvent, Model} from "survey-core";
 import {useCallback, useEffect, useState} from "react";
 import {Loader} from "@mantine/core";
 import {Survey as SurveyComp} from "survey-react-ui";
@@ -11,7 +11,27 @@ function SurveyView() {
   const params = useParams();
   const [surveyModel, setSurveyModel] = useState<Model | null>(null);
 
+  const surveyComplete = useCallback((sender: Model, options: CompleteEvent) => {
+    options.showSaveInProgress();
+    (async () => {
+      try {
+        // @ts-expect-error FIXME: Type Survey does not satisfy the constraint never
+        await window.supabase.from("surveys_answers").insert([
+          {
+            survey: params.id,
+            answer: sender.data,
+            respondent: (await window.supabase.auth.getUser()).data.user?.id
+          }
+        ])
+        options.showDataSavingSuccess()
+      } catch (err) {
+        options.showDataSavingError()
+      }
+    })()
+  }, [params.id])
+
   useEffect(() => {
+
     window.supabase.from("surveys").select("*").eq("id", params.id ?? "").then((response) => {
       if (!response.data || response.data.length === 0) {
         return;
@@ -19,16 +39,13 @@ function SurveyView() {
       const survey = response.data[0] as Survey;
       const surveyModel = new Model(survey.json);
       surveyModel.applyTheme(BorderlessLight);
+
       setSurveyModel(surveyModel);
 
     })
   }, [params.id]);
 
-  const surveyComplete = useCallback((sender: Model) => {
-    console.log(sender)
-  }, [])
-
-  surveyModel?.onComplete.add(surveyComplete);
+  surveyModel?.onComplete.add(surveyComplete)
 
   if (surveyModel === null) {
     return (
